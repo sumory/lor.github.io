@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>从0.2.*迁移到0.3.0版本 - Lor Framework</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Lor - A fast, minimalist web framework based on OpenResty.">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="lor">
+
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="lor">
+        <meta name="twitter:description" content="Lor - A fast, minimalist web framework based on OpenResty.">
+        <meta name="twitter:image" content="http://lor.sumory.com/images/logo.png">
+
+        <link rel="icon" href="/images/logo.png" type="image/x-icon">
+        <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Dosis:500&amp;text=Vue.js" rel="stylesheet" type="text/css">
+
+
+    <!-- main page styles -->
+    <link rel="stylesheet" href="/css/page.css">
+
+    <script>window.PAGE_TYPE = "migration"</script>
+    <style>
+
+    </style>
+</head>
+<body class="docs">    <div id="mobile-bar" >
+        <a class="menu-button"></a>
+        <a class="logo" href="/"></a>
+    </div>
+    <div id="header">
+  <a id="logo" href="/">
+    <img style="display: inline-block;" src="/images/logo.png">
+    <!-- <span>Lor</span> -->
+  </a>
+  <ul id="nav">
+    <!-- <li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" class="search-query st-default-search-input">
+  </form>
+</li> -->
+<li><a href="/guide/" class="nav-link">教程</a></li>
+<li><a href="/api/" class="nav-link">API</a></li>
+<li><a href="/examples/" class="nav-link">示例</a></li>
+<li><a href="/release/" class="nav-link">Releases</a></li>
+<!-- <li><a href="/blog/" class="nav-link">Blog</a></li> -->
+<li><a href="/migration/" class="nav-link current">0.2 to 0.3</a></li>
+
+<!-- <li class="nav-dropdown-container language">
+  <a class="nav-link">多语言</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">English</a></li>
+  </ul>
+</li>
+ -->
+
+  </ul>
+</div>
+
+    
+        <div id="main" class="fix-sidebar">
+            
+<div class="content">
+   
+      <h2 style="margin-bottom:10px;margin-top:30px;text-align: center;">从0.2.*迁移到0.3.0版本</h2>
+    
+
+    <p class="tip">Lor v0.2.* 是上个稳定版本， 将不再在此版本上添加新特性， 建议尽快升级到最新的0.3稳定版本。<br>0.3版本的API与0.2.*保持兼容，同时提供更强大易用的功能。<br></p>
+
+
+<h3 id="404错误中间件的变更"><a href="#404错误中间件的变更" class="headerlink" title="404错误中间件的变更"></a>404错误中间件的变更</h3><p>0.2.*版本的404错误需要在<strong>最后一个</strong><code>app:use</code>业务中间件来捕获， 而其它错误（如500错）需要通过<code>app:erroruse</code>错误中间件来捕获， 如下：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 业务中间件</span></div><div class="line">app:use(<span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- do something</span></div><div class="line">    <span class="built_in">next</span>()</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 其它业务路由处理</span></div><div class="line"><span class="comment">-- router(app)</span></div><div class="line"></div><div class="line"><span class="comment">-- 最后一个`业务中渐渐`来处理404错误</span></div><div class="line">app:use(<span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="keyword">if</span> req:is_found() ~= <span class="keyword">true</span> <span class="keyword">then</span></div><div class="line">        res:status(<span class="number">404</span>):send(<span class="string">"404! sorry, not found."</span>)</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 其它错误处理， 比如500错</span></div><div class="line">app:erroruse(<span class="function"><span class="keyword">function</span><span class="params">(err, req, res, next)</span></span></div><div class="line">    ngx.log(ngx.ERR, err)</div><div class="line">    res:status(<span class="number">500</span>):send(<span class="string">"500! unknown error."</span>)</div><div class="line"><span class="keyword">end</span>)</div></pre></td></tr></table></figure>
+<p>从0.3.0版本开始， 将把<strong>404错误</strong>当做普通的错误情况对待，也就是统一通过<code>app:erroruse</code>错误中间件来捕获， 即应将上述代码修改为类似以下格式的写法：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 业务中间件</span></div><div class="line">app:use(<span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- do something</span></div><div class="line">    <span class="built_in">next</span>()</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 其它业务路由处理</span></div><div class="line"><span class="comment">-- router(app)</span></div><div class="line"></div><div class="line"><span class="comment">-- 错误处理， 如404错、 500错等等</span></div><div class="line">app:erroruse(<span class="function"><span class="keyword">function</span><span class="params">(err, req, res, next)</span></span></div><div class="line">    ngx.log(ngx.ERR, err)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> req:is_found() ~= <span class="keyword">true</span> <span class="keyword">then</span></div><div class="line">        res:status(<span class="number">404</span>):send(<span class="string">"404! sorry, not found. "</span> .. (req.path <span class="keyword">or</span> <span class="string">""</span>))</div><div class="line">    <span class="keyword">else</span></div><div class="line">        res:status(<span class="number">500</span>):send(<span class="string">"unknown error"</span>)</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span>)</div></pre></td></tr></table></figure>
+
+
+    <div class="footer">
+      发现错误？想参与编辑？
+      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/migration/index.md" target="_blank">
+        在 Github 上编辑此页！
+      </a>
+    </div>
+</div>
+
+        </div>
+        <script src="/js/smooth-scroll.min.js"></script>
+    
+
+    <!-- main custom script for sidebars, version selects etc. -->
+    <script src="/js/common.js"></script>
+</body>
+</html>

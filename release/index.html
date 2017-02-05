@@ -1,0 +1,276 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>发布历史 - Lor Framework</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Lor - A fast, minimalist web framework based on OpenResty.">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="lor">
+
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="lor">
+        <meta name="twitter:description" content="Lor - A fast, minimalist web framework based on OpenResty.">
+        <meta name="twitter:image" content="http://lor.sumory.com/images/logo.png">
+
+        <link rel="icon" href="/images/logo.png" type="image/x-icon">
+        <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Dosis:500&amp;text=Vue.js" rel="stylesheet" type="text/css">
+
+
+    <!-- main page styles -->
+    <link rel="stylesheet" href="/css/page.css">
+
+    <script>window.PAGE_TYPE = "release"</script>
+    <style>
+
+    </style>
+</head>
+<body class="docs">    <div id="mobile-bar" >
+        <a class="menu-button"></a>
+        <a class="logo" href="/"></a>
+    </div>
+    <div id="header">
+  <a id="logo" href="/">
+    <img style="display: inline-block;" src="/images/logo.png">
+    <!-- <span>Lor</span> -->
+  </a>
+  <ul id="nav">
+    <!-- <li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" class="search-query st-default-search-input">
+  </form>
+</li> -->
+<li><a href="/guide/" class="nav-link">教程</a></li>
+<li><a href="/api/" class="nav-link">API</a></li>
+<li><a href="/examples/" class="nav-link">示例</a></li>
+<li><a href="/release/" class="nav-link current">Releases</a></li>
+<!-- <li><a href="/blog/" class="nav-link">Blog</a></li> -->
+<li><a href="/migration/" class="nav-link">0.2 to 0.3</a></li>
+
+<!-- <li class="nav-dropdown-container language">
+  <a class="nav-link">多语言</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">English</a></li>
+  </ul>
+</li>
+ -->
+
+  </ul>
+</div>
+
+    
+        <div id="main" class="fix-sidebar">
+            
+    <div class="sidebar scrollbar">
+    <ul class="main-menu">
+        <!-- <li>
+  <form id="search-form">
+    <input type="text" id="search-query-sidebar" class="search-query st-default-search-input">
+  </form>
+</li> -->
+<li><a href="/guide/" class="nav-link">教程</a></li>
+<li><a href="/api/" class="nav-link">API</a></li>
+<li><a href="/examples/" class="nav-link">示例</a></li>
+<li><a href="/release/" class="nav-link current">Releases</a></li>
+<!-- <li><a href="/blog/" class="nav-link">Blog</a></li> -->
+<li><a href="/migration/" class="nav-link">0.2 to 0.3</a></li>
+
+<!-- <li class="nav-dropdown-container language">
+  <a class="nav-link">多语言</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">English</a></li>
+  </ul>
+</li>
+ -->
+
+    </ul>
+    <div class="list">
+        
+            <ul class="menu-root">
+                
+                    <li>
+                        <a href="/release/index.html" class="sidebar-link current">发布历史</a>
+                    </li>
+                
+            </ul>
+        
+    </div>
+</div>
+
+
+<div class="content release with-sidebar ">
+   <!--  
+      <h2 style="margin-top:4px;">发布历史</h2>
+     -->
+
+    <h3 id="v0-3-0"><a href="#v0-3-0" class="headerlink" title="v0.3.0"></a>v0.3.0</h3><p>此版本为性能优化和内部实现重构版本，API使用上保持与之前版本兼容，详细描述如下：</p>
+<p><strong>特性</strong></p>
+<ul>
+<li>中间件（middlewares）重构，支持任意级别、多种方式挂载中间件，这些中间件包括<ul>
+<li>预处理中间件(use)</li>
+<li>错误处理中间件(erroruse)</li>
+<li>业务处理中间件(get/post/put/delete…)</li>
+</ul>
+</li>
+<li>提高路由性能<ul>
+<li>路由匹配次数不再随路由数增多而正比例增长</li>
+<li>全面支持正则路由和通配符路由</li>
+</ul>
+</li>
+<li>use、get/put/delete/post等API优化，如支持数组参数、支持单独挂载中间件等改进</li>
+<li>路由匹配更加灵活: 优先匹配精确路由，其次再匹配正则路由或通配符路由</li>
+</ul>
+<p><strong>Break Changes</strong></p>
+<p>与之前版本相比，break changes主要有以下几点(基本都是一些比较少用到的特性)</p>
+<ul>
+<li>路由执行顺序不再与路由定义顺序相关， 如错误路由不用必须定义在最下方</li>
+<li>如果一个请求最终匹配不到已定义的任何路由，则不会执行任何中间件代码（之前的版本会执行，这浪费了一些性能）</li>
+</ul>
+<h3 id="v0-2-6"><a href="#v0-2-6" class="headerlink" title="v0.2.6"></a>v0.2.6</h3><p><strong>发布日期: 2016.11.26</strong></p>
+<ul>
+<li>升级内部集成的session中间件<ul>
+<li>lua-resty-session升级到2.13版本</li>
+<li>添加一个session过期参数timeout,默认为3600秒</li>
+<li>添加一个refresh_cookie参数，用于控制否在有新请求时刷新session和cookie过期时间，默认“是”</li>
+</ul>
+</li>
+<li>更新<code>lord new</code>项目模板<ul>
+<li>缓存<code>app</code>对象，提高性能</li>
+<li>调整CRUD示例, 详细请参看脚手架代码中的app/routes/user.lua</li>
+</ul>
+</li>
+<li>删除默认响应头X-Powered-By</li>
+</ul>
+<h3 id="v0-2-4"><a href="#v0-2-4" class="headerlink" title="v0.2.4"></a>v0.2.4</h3><p><strong>发布日期: 2016.11.16</strong></p>
+<ul>
+<li>支持”application/json”类型请求</li>
+</ul>
+<h3 id="v0-2-2"><a href="#v0-2-2" class="headerlink" title="v0.2.2"></a>v0.2.2</h3><p><strong>发布日期: 2016.10.15</strong></p>
+<ul>
+<li>支持opm， 可通过<code>opm install sumory/lor</code>安装<ul>
+<li>注意opm暂不支持命令安装， 所以这种方式无法安装<code>lord</code>命令</li>
+</ul>
+</li>
+<li>若仍想使用<code>lord</code>命令，建议使用<code>sh install.sh</code>方式安装</li>
+</ul>
+<h3 id="v0-1-6"><a href="#v0-1-6" class="headerlink" title="v0.1.6"></a>v0.1.6</h3><p><strong>发布日期: 2016.10.14</strong></p>
+<ul>
+<li><code>lord</code>工具改为使用resty-cli实现，不再依赖luajit</li>
+</ul>
+<h3 id="v0-1-5"><a href="#v0-1-5" class="headerlink" title="v0.1.5"></a>v0.1.5</h3><p><strong>发布日期: 2016.10.01</strong></p>
+<ul>
+<li>Path URI支持”.”</li>
+<li>使用xpcall替换pcall以记录更多出错日志</li>
+<li>更新了测试用例</li>
+</ul>
+<h3 id="v0-1-4"><a href="#v0-1-4" class="headerlink" title="v0.1.4"></a>v0.1.4</h3><p><strong>发布日期: 2016.07.30</strong></p>
+<ul>
+<li>删除一些无用代码和引用</li>
+<li>升级测试依赖库</li>
+<li>修改文档和注释</li>
+<li>修改一些小bug</li>
+</ul>
+<h3 id="v0-1-0"><a href="#v0-1-0" class="headerlink" title="v0.1.0"></a>v0.1.0</h3><p><strong>发布日期: 2016.03.15</strong></p>
+<ul>
+<li>增加一配置项，是否启用模板功能：app:conf(“view enable”, true), 默认为关闭</li>
+<li>view.lua中ngx.var.template_root存在性判断</li>
+<li>增加docker支持</li>
+<li>命令<code>lord --path</code>变更为<code>lord path</code>，用于查看当前lor的安装路径</li>
+<li>官网文档更新<a href="http://lor.sumory.com">http://lor.sumory.com</a></li>
+</ul>
+<h3 id="v0-0-9"><a href="#v0-0-9" class="headerlink" title="v0.0.9"></a>v0.0.9</h3><p><strong>发布日期: 2016.03.02</strong></p>
+<ul>
+<li>使用install.sh安装lor时如果有指定安装目录，则在指定的目录后面拼上”lor”，避免文件误删的问题</li>
+<li>TODO: debug时列出整个路由表供参考</li>
+</ul>
+<h3 id="v0-0-8"><a href="#v0-0-8" class="headerlink" title="v0.0.8"></a>v0.0.8</h3><p><strong>发布日期: 2016.02.26</strong></p>
+<ul>
+<li>支持multipart/form文件上传</li>
+<li>修复了一个group router被多次app:use时出现404的bug</li>
+<li>支持Response:json(data, flag)方法传入第二个bool类型参数flag，指明序列化json时默认的空table是否编码为{}<ul>
+<li>true 作为{}处理</li>
+<li>false 作为[]处理</li>
+<li>不传入第二个参数则当作[]处理</li>
+</ul>
+</li>
+</ul>
+<h3 id="v0-0-7"><a href="#v0-0-7" class="headerlink" title="v0.0.7"></a>v0.0.7</h3><p><strong>发布日期: 2016.02.02</strong></p>
+<ul>
+<li>统一代码风格</li>
+<li>优化部分代码，比如使用ngx.re代替string对应方法、尽量使用local等</li>
+<li>Break API: req:isFound() -&gt; req:is_found()</li>
+<li>Fix bug: 修复了在lua_code_cache on时的一些404问题</li>
+</ul>
+<h3 id="v0-0-6"><a href="#v0-0-6" class="headerlink" title="v0.0.6"></a>v0.0.6</h3><p><strong>发布日期: 2016.01.30</strong></p>
+<ul>
+<li>修改了lor的默认安装路径到/usr/local/lor</li>
+<li>命令行工具<code>lord</code>生成的项目模板更改<ul>
+<li>加入了nginx.conf配置，方便之后维护自定义的nginx配置</li>
+<li>加入start/stop/restart脚本，方便之后项目的灵活部署</li>
+</ul>
+</li>
+<li>改善了路由pattern，支持path variable含有”-“字符</li>
+<li>增加了几个测试用例</li>
+<li>修复了上一个请求的path variable会污染之后请求的bug</li>
+<li>完善了res:redirect API</li>
+<li>修复了请求体为空时解析的bug</li>
+<li>给lor对象添加了版本号</li>
+<li>添加了静态文件支持（通过在nginx.conf里配置）</li>
+<li>编写了lor框架示例项目<a href="https://github.com/lorlabs/lor-example" target="_blank" rel="external">lor-example</a></li>
+</ul>
+<h3 id="v0-0-5"><a href="#v0-0-5" class="headerlink" title="v0.0.5"></a>v0.0.5</h3><p><strong>发布日期: 2016.01.28</strong></p>
+<ul>
+<li>完善了Documents和API文档，详见<a href="http://lor.sumory.com">lor官网</a></li>
+<li><code>lor new</code>命令生成的项目模板增加了一个middleware目录，用于存放自定义插件<ul>
+<li>该目录的命名和位置都是非强制的，用户可按需要将自定义的插件放在任何地方</li>
+</ul>
+</li>
+<li>修改了lor new产生的项目模板，增加了几个基本API的使用方式</li>
+</ul>
+<h3 id="v0-0-4"><a href="#v0-0-4" class="headerlink" title="v0.0.4"></a>v0.0.4</h3><p><strong>发布日期: 2016.01.25</strong></p>
+<ul>
+<li>以默认插件的形式添加cookie支持(lua-resty-cookie)</li>
+<li>以默认插件的形式添加session支持(lua-resty-session)</li>
+</ul>
+<h3 id="v0-0-3"><a href="#v0-0-3" class="headerlink" title="v0.0.3"></a>v0.0.3</h3><p><strong>发布日期: 2016.01.23</strong></p>
+<ul>
+<li>修复上版本路由bug</li>
+<li>添加模板支持（lua-resty-template）</li>
+<li>完善了40余个常规测试用例</li>
+<li>完善了命令行工具<code>lord</code></li>
+<li>常规API使用方法添加到默认项目模板</li>
+</ul>
+<h3 id="v0-0-2"><a href="#v0-0-2" class="headerlink" title="v0.0.2"></a>v0.0.2</h3><p><strong>发布日期: 2016.01.21</strong></p>
+<ul>
+<li>完全重构v0.0.1路由</li>
+<li>Sinatra风格路由</li>
+<li>主要API设计完成并实现</li>
+</ul>
+<h3 id="v0-0-1"><a href="#v0-0-1" class="headerlink" title="v0.0.1"></a>v0.0.1</h3><p><strong>发布日期: 2016.01.15</strong></p>
+<ul>
+<li>原型设计和实验</li>
+</ul>
+
+    
+    <div class="footer">
+      发现错误？想参与编辑？
+      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/release/index.md" target="_blank">
+        在 Github 上编辑此页！
+      </a>
+    </div>
+</div>
+
+        </div>
+        <script src="/js/smooth-scroll.min.js"></script>
+    
+
+    <!-- main custom script for sidebars, version selects etc. -->
+    <script src="/js/common.js"></script>
+</body>
+</html>

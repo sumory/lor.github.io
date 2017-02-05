@@ -1,0 +1,250 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>使用session - Lor Framework</title>
+        <meta charset="utf-8">
+        <meta name="description" content="Lor - A fast, minimalist web framework based on OpenResty.">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+        <meta property="og:type" content="article">
+        <meta property="og:title" content="lor">
+
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="lor">
+        <meta name="twitter:description" content="Lor - A fast, minimalist web framework based on OpenResty.">
+        <meta name="twitter:image" content="http://lor.sumory.com/images/logo.png">
+
+        <link rel="icon" href="/images/logo.png" type="image/x-icon">
+        <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Roboto Mono" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Dosis:500&amp;text=Vue.js" rel="stylesheet" type="text/css">
+
+
+    <!-- main page styles -->
+    <link rel="stylesheet" href="/css/page.css">
+
+    <script>window.PAGE_TYPE = "guide"</script>
+    <style>
+
+    </style>
+</head>
+<body class="docs">    <div id="mobile-bar" >
+        <a class="menu-button"></a>
+        <a class="logo" href="/"></a>
+    </div>
+    <div id="header">
+  <a id="logo" href="/">
+    <img style="display: inline-block;" src="/images/logo.png">
+    <!-- <span>Lor</span> -->
+  </a>
+  <ul id="nav">
+    <!-- <li>
+  <form id="search-form">
+    <input type="text" id="search-query-nav" class="search-query st-default-search-input">
+  </form>
+</li> -->
+<li><a href="/guide/" class="nav-link current">教程</a></li>
+<li><a href="/api/" class="nav-link">API</a></li>
+<li><a href="/examples/" class="nav-link">示例</a></li>
+<li><a href="/release/" class="nav-link">Releases</a></li>
+<!-- <li><a href="/blog/" class="nav-link">Blog</a></li> -->
+<li><a href="/migration/" class="nav-link">0.2 to 0.3</a></li>
+
+<!-- <li class="nav-dropdown-container language">
+  <a class="nav-link">多语言</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">English</a></li>
+  </ul>
+</li>
+ -->
+
+  </ul>
+</div>
+
+    
+        <div id="main" class="fix-sidebar">
+            
+    <div class="sidebar scrollbar">
+    <ul class="main-menu">
+        <!-- <li>
+  <form id="search-form">
+    <input type="text" id="search-query-sidebar" class="search-query st-default-search-input">
+  </form>
+</li> -->
+<li><a href="/guide/" class="nav-link current">教程</a></li>
+<li><a href="/api/" class="nav-link">API</a></li>
+<li><a href="/examples/" class="nav-link">示例</a></li>
+<li><a href="/release/" class="nav-link">Releases</a></li>
+<!-- <li><a href="/blog/" class="nav-link">Blog</a></li> -->
+<li><a href="/migration/" class="nav-link">0.2 to 0.3</a></li>
+
+<!-- <li class="nav-dropdown-container language">
+  <a class="nav-link">多语言</a><span class="arrow"></span>
+  <ul class="nav-dropdown">
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">中文</a></li>
+    <li><a href="https://lor.sumory.com/" class="nav-link" target="_blank">English</a></li>
+  </ul>
+</li>
+ -->
+
+    </ul>
+    <div class="list">
+        
+            <ul class="menu-root">
+                <li><h3 style="margin-top:0px;">基础</h3></li>
+                
+                    
+                        <li>
+                            <a href="/guide/index.html" class="sidebar-link">介绍</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/installation.html" class="sidebar-link">安装</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/lord_usage.html" class="sidebar-link">Get Started</a>
+                        </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+
+                <li><h3>路由</h3></li>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/basic_route.html" class="sidebar-link">基本用法</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/group_router.html" class="sidebar-link">组路由</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/multi_business_middleware.html" class="sidebar-link">多级处理函数</a>
+                        </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+
+                <li><h3>高级</h3></li>
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/issues.html" class="sidebar-link">常见问题</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/view_usage.html" class="sidebar-link">使用HTML模板</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/cookie_usage.html" class="sidebar-link">使用cookie</a>
+                        </li>
+                    
+                
+                    
+                        <li>
+                            <a href="/guide/session_usage.html" class="sidebar-link current">使用session</a>
+                        </li>
+                    
+                
+            </ul>
+        
+    </div>
+</div>
+
+
+<div class="content guide with-sidebar session_usage-guide">
+   <!--  
+      <h2 style="margin-top:4px;">使用session</h2>
+     -->
+
+    <div class="placeholder"></div>
+
+
+<p>lor提供了一个内置的<a href="https://github.com/sumory/lor/blob/master/lor/lib/middleware/session.lua" target="_blank" rel="external">session插件</a>，它基于<a href="https://github.com/bungle/lua-resty-session" target="_blank" rel="external">lua-resty-session</a>来实现session管理。</p>
+<p><strong>注意</strong>:</p>
+<ul>
+<li>在使用这个插件时，用户应该先了解<a href="https://github.com/bungle/lua-resty-session" target="_blank" rel="external">lua-resty-session</a>的相关API和使用方式</li>
+<li>lor提供的默认session使用了基于cookie的存储方式，但在实际项目中可能需要使用redis或memcache等来实现session管理，这时用户应自行创建一个lor插件来使用</li>
+</ul>
+<p>lor提供的默认session的使用方式如下:</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> lor = <span class="built_in">require</span>(<span class="string">"lor.index"</span>)</div><div class="line"><span class="keyword">local</span> app = lor()</div><div class="line"></div><div class="line"><span class="comment">-- 加载session插件</span></div><div class="line"><span class="keyword">local</span> session_middleware = <span class="built_in">require</span>(<span class="string">"lor.lib.middleware.session"</span>)</div><div class="line">app:use(session_middleware(&#123;</div><div class="line">    secret = <span class="string">"G3fu98Kor0rJrembv67fnhgl95FioRpQ"</span>, <span class="comment">-- 加密用的盐</span></div><div class="line">    timeout = <span class="number">3600</span> <span class="comment">-- session超时时间，默认为3600秒</span></div><div class="line">&#125;))</div><div class="line"></div><div class="line"><span class="comment">-- 模拟session的使用</span></div><div class="line"><span class="comment">-- 加载session插件后，`session`对象被注入到了`req`对象里</span></div><div class="line"></div><div class="line"><span class="comment">-- 在session里赋值</span></div><div class="line">app:get(<span class="string">"/session/set"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="keyword">local</span> k = req.query.k</div><div class="line">    <span class="keyword">local</span> v = req.query.v</div><div class="line">    <span class="keyword">if</span> k <span class="keyword">then</span></div><div class="line">        req.session.set(k,v)</div><div class="line">        res:send(<span class="string">"session saved: "</span> .. k .. <span class="string">"-&gt;"</span> .. v)</div><div class="line">    <span class="keyword">else</span></div><div class="line">        res:send(<span class="string">"null session key"</span>)</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 从session里取值</span></div><div class="line">app:get(<span class="string">"/session/get/:key"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="keyword">local</span> k = req.params.key</div><div class="line">    <span class="keyword">if</span> <span class="keyword">not</span> k <span class="keyword">then</span></div><div class="line">        res:send(<span class="string">"please input session key"</span>)</div><div class="line">    <span class="keyword">else</span></div><div class="line">        res:send(<span class="string">"session data: "</span> .. req.session.get(k))</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 销毁session</span></div><div class="line">app:get(<span class="string">"/session/destroy"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    req.session.destroy()</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:run()</div></pre></td></tr></table></figure>
+
+    
+      <div class="guide-links">
+        
+          <span>← <a href="/guide/cookie_usage.html">使用cookie</a></span>
+        
+        
+      </div>
+    
+    <div class="footer">
+      发现错误？想参与编辑？
+      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/guide/session_usage.md" target="_blank">
+        在 Github 上编辑此页！
+      </a>
+    </div>
+</div>
+
+        </div>
+        <script src="/js/smooth-scroll.min.js"></script>
+    
+
+    <!-- main custom script for sidebars, version selects etc. -->
+    <script src="/js/common.js"></script>
+</body>
+</html>
