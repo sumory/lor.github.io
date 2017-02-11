@@ -71,13 +71,31 @@
       <h2 style="margin-bottom:10px;margin-top:30px;text-align: center;">从0.2.*迁移到0.3.0版本</h2>
     
 
-    <p class="tip">Lor v0.2.* 是上个稳定版本， 将不再在此版本上添加新特性， 建议尽快升级到最新的0.3稳定版本。<br>0.3版本的API与0.2.*保持兼容，同时提供更强大易用的功能。<br></p>
+    <p class="tip">Lor v0.2.* 是上个稳定版本， 之后将不再在此版本上添加新特性， 建议尽快升级到最新的0.3稳定版本。<br>0.3版本的API与0.2.*保持兼容，同时提供更强大易用的功能。<br></p>
 
 
 <h3 id="404错误中间件的变更"><a href="#404错误中间件的变更" class="headerlink" title="404错误中间件的变更"></a>404错误中间件的变更</h3><p>0.2.*版本的404错误需要在<strong>最后一个</strong><code>app:use</code>业务中间件来捕获， 而其它错误（如500错）需要通过<code>app:erroruse</code>错误中间件来捕获， 如下：</p>
 <figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 业务中间件</span></div><div class="line">app:use(<span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- do something</span></div><div class="line">    <span class="built_in">next</span>()</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 其它业务路由处理</span></div><div class="line"><span class="comment">-- router(app)</span></div><div class="line"></div><div class="line"><span class="comment">-- 最后一个`业务中渐渐`来处理404错误</span></div><div class="line">app:use(<span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="keyword">if</span> req:is_found() ~= <span class="keyword">true</span> <span class="keyword">then</span></div><div class="line">        res:status(<span class="number">404</span>):send(<span class="string">"404! sorry, not found."</span>)</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 其它错误处理， 比如500错</span></div><div class="line">app:erroruse(<span class="function"><span class="keyword">function</span><span class="params">(err, req, res, next)</span></span></div><div class="line">    ngx.log(ngx.ERR, err)</div><div class="line">    res:status(<span class="number">500</span>):send(<span class="string">"500! unknown error."</span>)</div><div class="line"><span class="keyword">end</span>)</div></pre></td></tr></table></figure>
 <p>从0.3.0版本开始， 将把<strong>404错误</strong>当做普通的错误情况对待，也就是统一通过<code>app:erroruse</code>错误中间件来捕获， 即应将上述代码修改为类似以下格式的写法：</p>
 <figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="comment">-- 业务中间件</span></div><div class="line">app:use(<span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- do something</span></div><div class="line">    <span class="built_in">next</span>()</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 其它业务路由处理</span></div><div class="line"><span class="comment">-- router(app)</span></div><div class="line"></div><div class="line"><span class="comment">-- 错误处理， 如404错、 500错等等</span></div><div class="line">app:erroruse(<span class="function"><span class="keyword">function</span><span class="params">(err, req, res, next)</span></span></div><div class="line">    ngx.log(ngx.ERR, err)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> req:is_found() ~= <span class="keyword">true</span> <span class="keyword">then</span></div><div class="line">        res:status(<span class="number">404</span>):send(<span class="string">"404! sorry, not found. "</span> .. (req.path <span class="keyword">or</span> <span class="string">""</span>))</div><div class="line">    <span class="keyword">else</span></div><div class="line">        res:status(<span class="number">500</span>):send(<span class="string">"unknown error"</span>)</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span>)</div></pre></td></tr></table></figure>
+<h3 id="路由加载顺序和执行顺序"><a href="#路由加载顺序和执行顺序" class="headerlink" title="路由加载顺序和执行顺序"></a>路由加载顺序和执行顺序</h3><p>0.2.*版本， 路由的<code>加载顺序</code>和<code>匹配顺序</code>是跟代码编写顺序相关的, 而0.3.0对此做了更改， 它们的差异主要表现在以下两种用例上。</p>
+<h4 id="用例1"><a href="#用例1" class="headerlink" title="用例1"></a>用例1</h4><figure class="highlight lua"><table><tr><td class="code"><pre><div class="line">app:use(<span class="string">"/user"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span> <span class="built_in">next</span>() <span class="keyword">end</span>)  <span class="comment">--①</span></div><div class="line">app:use(<span class="string">"/user/foo"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span> <span class="built_in">next</span>() <span class="keyword">end</span>) <span class="comment">--②</span></div><div class="line">app:use(<span class="string">"/user/foo"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span> <span class="comment">--③</span></div><div class="line">    res:send(<span class="string">"this is foo"</span>)</div><div class="line"><span class="keyword">end</span>)</div></pre></td></tr></table></figure>
+<p>对于0.2.*版本来说：</p>
+<ul>
+<li>在访问”/user/foo”时， 会依次执行①②中间件，以及最后的③业务处理代码。 若将②中间件代码写在①前面，则先执行②在执行①， 即中间件的执行顺序与其定义顺序是关联的。</li>
+<li>在访问”/user/not_exist”时， 会依次执行①②中间件, 但不会执行③， 因为它不匹配业务路由”/user/foo”</li>
+</ul>
+<p>然而对于0.3.0版本来说：</p>
+<ul>
+<li>在访问”/user/foo”时， 会依次执行①②中间件，以及最后的③业务处理代码</li>
+<li>在访问”/user/not_exist”时， 不会执行③， <span style="color:red"><b>也不会</b></span>执行①②中间件, 因为0.3.0版本对0.2.*版本的逻辑做了更改， 如果一个请求没有匹配（发生了404错误）到任何业务路由, 则不会执行任何中间件代码，即使它的uri能匹配到某些中间件。</li>
+</ul>
+<h4 id="用例2"><a href="#用例2" class="headerlink" title="用例2"></a>用例2</h4><p>对于0.2.*版本， 错误中间件即<code>app:erroruse</code>只能定义在所有路由的后面， 但0.3.0打破了此限制， 业务中间价和错误处理中间价的定义可以放在任意地方， 不再与定义顺序强相关。</p>
+<h3 id="其它更改和改进"><a href="#其它更改和改进" class="headerlink" title="其它更改和改进"></a>其它更改和改进</h3><ul>
+<li>路由匹配优先级， 请参考<a href="/guide/route_priority.html">路由优先级</a></li>
+<li>路由支持严格模式和非严格模式， 详细请参考<a href="/guide/strict_route.html">路由模式</a></li>
+<li>增强业务路由pipeline， 请参考<a href="/guide/multi_business_middleware.html">多级处理函数</a></li>
+</ul>
 
 
     <div class="footer">
