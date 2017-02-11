@@ -4,7 +4,7 @@
   if (PAGE_TYPE) {
     initVersionSelect()
     initSubHeaders()
-    initApiSpecLinks()
+    //initApiSpecLinks()
     initLocationHashFuzzyMatching()
   }
 
