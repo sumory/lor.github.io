@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>基本用法 - Lor Framework</title>
+    <title>路由优先级 - Lor Framework</title>
         <meta charset="utf-8">
         <meta name="description" content="Lor - A fast, minimalist web framework based on OpenResty.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -144,7 +144,7 @@
                 
                     
                         <li>
-                            <a href="/guide/basic_route.html" class="sidebar-link current">基本用法</a>
+                            <a href="/guide/basic_route.html" class="sidebar-link">基本用法</a>
                         </li>
                     
                 
@@ -162,7 +162,7 @@
                 
                     
                         <li>
-                            <a href="/guide/route_priority.html" class="sidebar-link">路由优先级</a>
+                            <a href="/guide/route_priority.html" class="sidebar-link current">路由优先级</a>
                         </li>
                     
                 
@@ -237,29 +237,37 @@
 </div>
 
 
-<div class="content guide with-sidebar basic_route-guide">
+<div class="content guide with-sidebar route_priority-guide">
    <!--  
-      <h2 style="margin-top:4px;">基本用法</h2>
+      <h2 style="margin-top:4px;">路由优先级</h2>
      -->
 
-    <h3 id="路由风格"><a href="#路由风格" class="headerlink" title="路由风格"></a>路由风格</h3><p>lor支持Sinatra风格的路由。</p>
-<h3 id="支持的HTTP-Method"><a href="#支持的HTTP-Method" class="headerlink" title="支持的HTTP Method"></a>支持的HTTP Method</h3><p>lor框架支持常见的各种HTTP请求方式， 包括但不限于get/post/put/delete/patch等等。</p>
-<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>挂载到app对象上的路由示例：</p>
-<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> lor = <span class="built_in">require</span>(<span class="string">"lor.index"</span>)</div><div class="line"><span class="keyword">local</span> app = lor()</div><div class="line"></div><div class="line">app:get(<span class="string">"/"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    res:send(<span class="string">"hello world!"</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:get(<span class="string">"/user/find"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    res:send(<span class="string">"this is sumory."</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:post(<span class="string">"/user"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- ...</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:delete(<span class="string">"/user/:id"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- ...</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:run()</div></pre></td></tr></table></figure>
-<p>挂载到group router(组路由)上的路由示例：</p>
-<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> lor = <span class="built_in">require</span>(<span class="string">"lor.index"</span>)</div><div class="line"><span class="keyword">local</span> app = lor()</div><div class="line"><span class="keyword">local</span> user_router = lor:Router()</div><div class="line"></div><div class="line">user_router:get(<span class="string">"/query"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">user_router:put(<span class="string">"/create"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:use(<span class="string">"/user"</span>, user_router())</div><div class="line"></div><div class="line">app:run()</div></pre></td></tr></table></figure>
+    <blockquote>
+<p>此文档适配于lor v0.3.0+版本</p>
+</blockquote>
+<p>在匹配的时候将优先匹配精确路由，其次再匹配通配符路由（named route),如以下示例：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line">app:get(<span class="string">"/test"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span> <span class="comment">--①</span></div><div class="line">    res:send(<span class="string">"test"</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:get(<span class="string">"/test/exact"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span> <span class="comment">--②</span></div><div class="line">    res:send(<span class="string">"exact"</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:get(<span class="string">"/test/:foo"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span> <span class="comment">--③</span></div><div class="line">    <span class="keyword">local</span> param = req.params.foo</div><div class="line">    res:send(param)</div><div class="line"><span class="keyword">end</span>)</div></pre></td></tr></table></figure>
+<p>访问以下url时对应的路由分别是：</p>
+<ul>
+<li>“/test”: 由路由①处理</li>
+<li>“/test/exact”: 查找到<code>app:get(&quot;/test/exact&quot;)</code>, 所以由路由②处理</li>
+<li>“/test/other”: 没有查找到精确路由，但查找到了named router(<code>app:get(&quot;/test/:foo&quot;)</code>), 所以由路由③处理</li>
+<li>“/test/other/bar”: 没有查找到任何路由， 返回<code>404</code>错误</li>
+</ul>
 
     
       <div class="guide-links">
         
+          <span>← <a href="/guide/multi_business_middleware.html">多级处理函数</a></span>
         
-          <span style="float:right"><a href="/guide/group_router.html">组路由</a> →</span>
+        
+          <span style="float:right"><a href="/guide/strict_route.html">路由模式</a> →</span>
         
       </div>
     
     <div class="footer">
       发现错误？想参与编辑？
-      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/guide/basic_route.md" target="_blank">
+      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/guide/route_priority.md" target="_blank">
         在 Github 上编辑此页！
       </a>
     </div>

@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>基本用法 - Lor Framework</title>
+    <title>将lor当做一个库使用 - Lor Framework</title>
         <meta charset="utf-8">
         <meta name="description" content="Lor - A fast, minimalist web framework based on OpenResty.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -144,7 +144,7 @@
                 
                     
                         <li>
-                            <a href="/guide/basic_route.html" class="sidebar-link current">基本用法</a>
+                            <a href="/guide/basic_route.html" class="sidebar-link">基本用法</a>
                         </li>
                     
                 
@@ -227,7 +227,7 @@
                 
                     
                         <li>
-                            <a href="/guide/use_as_lib.html" class="sidebar-link">将lor当做一个库使用</a>
+                            <a href="/guide/use_as_lib.html" class="sidebar-link current">将lor当做一个库使用</a>
                         </li>
                     
                 
@@ -237,29 +237,49 @@
 </div>
 
 
-<div class="content guide with-sidebar basic_route-guide">
+<div class="content guide with-sidebar use_as_lib-guide">
    <!--  
-      <h2 style="margin-top:4px;">基本用法</h2>
+      <h2 style="margin-top:4px;">将lor当做一个库使用</h2>
      -->
 
-    <h3 id="路由风格"><a href="#路由风格" class="headerlink" title="路由风格"></a>路由风格</h3><p>lor支持Sinatra风格的路由。</p>
-<h3 id="支持的HTTP-Method"><a href="#支持的HTTP-Method" class="headerlink" title="支持的HTTP Method"></a>支持的HTTP Method</h3><p>lor框架支持常见的各种HTTP请求方式， 包括但不限于get/post/put/delete/patch等等。</p>
-<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>挂载到app对象上的路由示例：</p>
-<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> lor = <span class="built_in">require</span>(<span class="string">"lor.index"</span>)</div><div class="line"><span class="keyword">local</span> app = lor()</div><div class="line"></div><div class="line">app:get(<span class="string">"/"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    res:send(<span class="string">"hello world!"</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:get(<span class="string">"/user/find"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    res:send(<span class="string">"this is sumory."</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:post(<span class="string">"/user"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- ...</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:delete(<span class="string">"/user/:id"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- ...</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:run()</div></pre></td></tr></table></figure>
-<p>挂载到group router(组路由)上的路由示例：</p>
-<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> lor = <span class="built_in">require</span>(<span class="string">"lor.index"</span>)</div><div class="line"><span class="keyword">local</span> app = lor()</div><div class="line"><span class="keyword">local</span> user_router = lor:Router()</div><div class="line"></div><div class="line">user_router:get(<span class="string">"/query"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">user_router:put(<span class="string">"/create"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:use(<span class="string">"/user"</span>, user_router())</div><div class="line"></div><div class="line">app:run()</div></pre></td></tr></table></figure>
+    <div class="placeholder"></div>
+
+<p>lor是一个框架， 也是一个library，可以像其他<code>库</code>或<code>工具包</code>一样使用。不用安装，直接使用它来构建一个基于OpenResty的项目，步骤如下：</p>
+<ul>
+<li>新建一个空白文件夹作为项目目录，如mkdir /tmp/myproject</li>
+<li>下载lor，git clone <a href="https://github.com/sumory/lor" target="_blank" rel="external">https://github.com/sumory/lor</a>, 将<code>lib/lor</code>文件夹拷贝在/tmp/myproject下，并取名为<code>lor</code></li>
+<li><p>新建一个app文件夹，作为代码目录， 新建conf文件夹和nginx.conf作为配置文件，新建logs文件夹用于存放日志，当前目录结构如下：</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">myproject</div><div class="line">├── app</div><div class="line">├── conf</div><div class="line">│   └── nginx.conf</div><div class="line">├── logs</div><div class="line">└── lor</div><div class="line">    ├── index.lua</div><div class="line">    ├── version.lua</div><div class="line">    └── lib</div></pre></td></tr></table></figure>
+</li>
+<li><p>在app文件夹下新建一文件server.lua用于配置lor和加载各个路由，代码如下：</p>
+  <figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> lor = <span class="built_in">require</span>(<span class="string">"lor.index"</span>)</div><div class="line"><span class="keyword">local</span> app = lor()</div><div class="line"></div><div class="line"><span class="comment">-- 模板配置</span></div><div class="line">app:conf(<span class="string">"view enable"</span>, <span class="keyword">true</span>)</div><div class="line">app:conf(<span class="string">"view engine"</span>, <span class="string">"tmpl"</span>)</div><div class="line">app:conf(<span class="string">"view ext"</span>, <span class="string">"html"</span>)</div><div class="line">app:conf(<span class="string">"view layout"</span>, <span class="string">""</span>)</div><div class="line">app:conf(<span class="string">"views"</span>, <span class="string">"./app/views"</span>)</div><div class="line"></div><div class="line"><span class="comment">-- hello world</span></div><div class="line">app:get(<span class="string">"/index"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    res:send(<span class="string">"hello world!"</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 错误处理中间件</span></div><div class="line">app:erroruse(<span class="function"><span class="keyword">function</span><span class="params">(err, req, res, next)</span></span></div><div class="line">    ngx.log(ngx.ERR, err)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> req:is_found() ~= <span class="keyword">true</span> <span class="keyword">then</span></div><div class="line">        res:status(<span class="number">404</span>):send(<span class="string">"404! sorry, not found. "</span>)</div><div class="line">    <span class="keyword">else</span></div><div class="line">        res:status(<span class="number">500</span>):send(<span class="string">"internal error"</span>)</div><div class="line">    <span class="keyword">end</span></div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="keyword">return</span> app</div></pre></td></tr></table></figure>
+</li>
+<li><p>在app文件夹下新建一文件main.lua作为项目入口，代码如下：</p>
+  <figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> app = <span class="built_in">require</span>(<span class="string">"app.server"</span>)</div><div class="line">app:run()</div></pre></td></tr></table></figure>
+</li>
+<li><p>新建nginx配置文件nginx.conf，加入以下配置。 即在<code>lua_package_path</code>中指定lor目录<code>lor</code>和我们自己编写的代码所在目录<code>app</code>,并在<code>content_by_lua_file</code>阶段指定我们刚才编写的项目入口文件。</p>
+  <figure class="highlight sh"><table><tr><td class="code"><pre><div class="line"><span class="comment"># 注意这里只是为了演示的最简配置，实际项目中要根据项目需要自行配置</span></div><div class="line">pid logs/nginx.pid;</div><div class="line">worker_processes 4;</div><div class="line">events &#123;</div><div class="line">    worker_connections 4096;</div><div class="line">&#125;</div><div class="line"></div><div class="line">http &#123;</div><div class="line">    lua_package_path <span class="string">"./app/?.lua;./lor/?.lua;;"</span>;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen 8888;</div><div class="line"></div><div class="line">        access_log logs/access.log combined buffer=16k;</div><div class="line">        error_log logs/error.log;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">            content_by_lua_file ./app/main.lua;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>至此，所有准备工作已经完成，目录结构如下</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">myproject</div><div class="line">├── app</div><div class="line">│   └── main.lua</div><div class="line">├── conf</div><div class="line">│   └── nginx.conf</div><div class="line">├── logs</div><div class="line">└── lor</div><div class="line">    ├── index.lua</div><div class="line">    ├── version.lua</div><div class="line">    └── lib</div></pre></td></tr></table></figure>
+</li>
+<li><p>使用以下命令启动本项目</p>
+  <figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">nginx -c ./conf/nginx.conf -p `pwd`</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>启动后，访问<a href="http://localhost:8888/index" target="_blank" rel="external">http://localhost:8888/index</a>, 就会出现我们熟悉的<code>Hello World!</code></p>
 
     
       <div class="guide-links">
         
+          <span>← <a href="/guide/session_usage.html">使用session</a></span>
         
-          <span style="float:right"><a href="/guide/group_router.html">组路由</a> →</span>
         
       </div>
     
     <div class="footer">
       发现错误？想参与编辑？
-      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/guide/basic_route.md" target="_blank">
+      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/guide/use_as_lib.md" target="_blank">
         在 Github 上编辑此页！
       </a>
     </div>
