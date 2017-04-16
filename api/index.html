@@ -22,7 +22,9 @@
 
 
     <!-- main page styles -->
-    <link rel="stylesheet" href="/css/page.css">
+    
+        <link rel="stylesheet" href="/css/page.css?v=0.3.1_0">
+    
 
     <script>window.PAGE_TYPE = "api"</script>
     <style>
@@ -152,7 +154,7 @@
 <li><p>示例1： 该实例加载了一个作用在所有路由上的插件，它的作用是在请求上注入了一个参数<code>inject_param</code>,这样后续匹配到的路由可以使用这个参数。</p>
 </li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><div class="line">app:use(function(req, res, next)</div><div class="line">    -- 注入一个参数</div><div class="line">    req.params.inject_param = &quot;from all path middleware&quot;</div><div class="line">    next() -- 注意，如果不调用next()方法，请求到这里就截止了，不在匹配后面的路由</div><div class="line">end)</div></pre></td></tr></table></figure>
+<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line">app:use(<span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- 注入一个参数</span></div><div class="line">    req.params.inject_param = <span class="string">"from all path middleware"</span></div><div class="line">    <span class="built_in">next</span>() <span class="comment">-- 注意，如果不调用next()方法，请求到这里就截止了，不在匹配后面的路由</span></div><div class="line"><span class="keyword">end</span>)</div></pre></td></tr></table></figure>
 <ul>
 <li>示例2： 该实例类似于一个拦截器，app加载了一个作用在前缀为”/user/“路径上的插件。<br>插件的作用是判断传入的请求参数里是否含有已经被授权的token，没有则直接返回错误，如果有就放过，继续下个路由。</li>
 </ul>
@@ -307,6 +309,6 @@
     
 
     <!-- main custom script for sidebars, version selects etc. -->
-    <script src="/js/common.js?v=0.3.0_1"></script>
+    <script src="/js/common.js?v=0.3.1_1"></script>
 </body>
 </html>
