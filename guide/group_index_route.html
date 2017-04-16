@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>使用cookie - Lor Framework</title>
+    <title>直接挂载到组路由 - Lor Framework</title>
         <meta charset="utf-8">
         <meta name="description" content="Lor - A fast, minimalist web framework based on OpenResty.">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -170,7 +170,7 @@
                 
                     
                         <li>
-                            <a href="/guide/group_index_route.html" class="sidebar-link">直接挂载到组路由</a>
+                            <a href="/guide/group_index_route.html" class="sidebar-link current">直接挂载到组路由</a>
                         </li>
                     
                 
@@ -225,7 +225,7 @@
                 
                     
                         <li>
-                            <a href="/guide/cookie_usage.html" class="sidebar-link current">使用cookie</a>
+                            <a href="/guide/cookie_usage.html" class="sidebar-link">使用cookie</a>
                         </li>
                     
                 
@@ -247,36 +247,31 @@
 </div>
 
 
-<div class="content guide with-sidebar cookie_usage-guide">
+<div class="content guide with-sidebar group_index_route-guide">
    <!--  
-      <h2 style="margin-top:4px;">使用cookie</h2>
+      <h2 style="margin-top:4px;">直接挂载到组路由</h2>
      -->
 
-    <div class="placeholder"></div>
-
-<p>lor提供了一个内置的<a href="https://github.com/sumory/lor/blob/master/lor/lib/middleware/cookie.lua" target="_blank" rel="external">cookie插件</a>，只要像require其它模块一样加载就可使用。</p>
-<p><strong>注意</strong>:</p>
-<ul>
-<li>在使用这个插件时，用户应该先了解<a href="https://github.com/cloudflare/lua-resty-cookie" target="_blank" rel="external">lua-resty-cookie</a>的API使用方式</li>
-<li>生产项目中如有其它cookie需求，用户应<strong>自行创建</strong>一个插件或是库来管理cookie， 建议参考<a href="https://github.com/cloudflare/lua-resty-cookie" target="_blank" rel="external">lua-resty-cookie</a>的实现</li>
-</ul>
-<p>lor提供的默认cookie插件使用方式如下:</p>
-<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> lor = <span class="built_in">require</span>(<span class="string">"lor.index"</span>)</div><div class="line"><span class="keyword">local</span> app = lor()</div><div class="line"></div><div class="line"><span class="comment">-- 加载cookie插件</span></div><div class="line"><span class="keyword">local</span> middleware_cookie = <span class="built_in">require</span>(<span class="string">"lor.lib.middleware.cookie"</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 加载cookie插件后，`cookie`被注入到了`req`这个对象里</span></div><div class="line">app:use(middleware_cookie())</div><div class="line"></div><div class="line"><span class="comment">-- 模拟cookie的写入</span></div><div class="line">app:get(<span class="string">"/set_cookie"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="comment">-- 使用res.cookie.set这个API来写cookie</span></div><div class="line">    req.cookie.set(<span class="string">"test_cookie"</span>, <span class="string">"12345"</span>)</div><div class="line">    res:send(<span class="string">"cookie was set."</span>)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line"><span class="comment">-- 模拟cookie的读取, 返回`12345`</span></div><div class="line">app:get(<span class="string">"/set_cookie"</span>, <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    <span class="keyword">local</span> test_cookie = req.cookie.get(<span class="string">"test_cookie"</span>)</div><div class="line">    res:send(<span class="string">"cookie is:"</span>.. test_cookie)</div><div class="line"><span class="keyword">end</span>)</div><div class="line"></div><div class="line">app:run()</div></pre></td></tr></table></figure>
-<p>关于此插件的使用还可参看Github上的两个issues： <a href="https://github.com/sumory/lor/issues/37" target="_blank" rel="external">#issues37</a> &amp; <a href="https://github.com/sumory/lor/issues/35" target="_blank" rel="external">#issues35</a></p>
+    <blockquote>
+<p>此文档适配于lor v0.3.1+版本</p>
+</blockquote>
+<p>从v0.3.1版本开始， 形如<code>/test</code>可以直接在组路由里挂载， 而不必再使用<code>app:get(&quot;/test&quot;, function(req, res, next) ... end)</code>的方式挂载到app上。</p>
+<p>使用方式如下：</p>
+<figure class="highlight lua"><table><tr><td class="code"><pre><div class="line"><span class="keyword">local</span> test_router = lor:Router()</div><div class="line"></div><div class="line"><span class="keyword">local</span> func1 = <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    res:send(<span class="string">"get /test"</span>)</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line"><span class="keyword">local</span> func2 = <span class="function"><span class="keyword">function</span><span class="params">(req, res, next)</span></span></div><div class="line">    res:send(<span class="string">"post /test"</span>)</div><div class="line"><span class="keyword">end</span></div><div class="line"></div><div class="line">test_router:get(func1) <span class="comment">-- get方式访问/test</span></div><div class="line">test_router:post(func2) <span class="comment">-- post方式访问/test</span></div><div class="line">app:use(<span class="string">"/test"</span>, test_router())</div></pre></td></tr></table></figure>
 
     
       <div class="guide-links">
         
-          <span>← <a href="/guide/view_usage.html">使用HTML模板</a></span>
+          <span>← <a href="/guide/route_priority.html">路由优先级</a></span>
         
         
-          <span style="float:right"><a href="/guide/session_usage.html">使用session</a> →</span>
+          <span style="float:right"><a href="/guide/strict_route.html">路由模式</a> →</span>
         
       </div>
     
     <div class="footer">
       发现错误？想参与编辑？
-      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/guide/cookie_usage.md" target="_blank">
+      <a href="https://github.com/sumory/lor.sumory.com/blob/master/src/guide/group_index_route.md" target="_blank">
         在 Github 上编辑此页！
       </a>
     </div>
