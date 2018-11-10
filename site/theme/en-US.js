@@ -1,0 +1,36 @@
+const appLocaleData = require('react-intl/locale-data/en');
+
+module.exports = {
+  locale: 'en-US',
+  data: appLocaleData,
+  messages: {
+    'app.header.search': 'Search...',
+    'app.header.search.all': 'Search in Google: ',
+    'app.header.search.doc': 'Docs',
+    'app.header.search.component': 'Components',
+    'app.header.menu.home': 'Home',
+    'app.header.menu.docs': 'Docs',
+    'app.header.menu.api': 'API',
+    'app.header.menu.changelog': 'Change Log',
+    'app.header.menu.resource': 'Resources',
+    'app.header.lang': '中文',
+    'app.content.edit-page': 'Edit this page on GitHub!',
+    'app.content.edit-demo': 'Edit this demo on GitHub!',
+    'app.component.examples': 'Examples',
+    'app.demo.copy': 'Copy code',
+    'app.demo.copied': 'Copied!',
+    'app.home.slogan': 'a Web & API framework based on OpenResty',
+    'app.home.preview': 'Preview',
+    'app.home.start': 'Getting Started',
+    'app.home.download': 'Download',
+    'app.home.letspro': 'Run commands below, explore it!',
+    'app.home.openbrowser': 'open browser and visit',
+    'app.home.needhelp':
+      "Need help? You can see {docs} and {faq} first, and {ask} in GitHub if they don't help.",
+    'app.home.docs': 'documentation',
+    'app.home.faq': 'faq',
+    'app.home.ask': 'ask questions',
+    'app.footer.repo': 'GitHub Repository',
+    'app.footer.resources': 'Resources',
+  },
+};
