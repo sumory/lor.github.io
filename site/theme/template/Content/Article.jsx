@@ -79,7 +79,7 @@ export default class Article extends React.PureComponent {
     const locale = this.context.intl.locale;
     const isNotTranslated = locale === 'en-US' && typeof title === 'object';
     return (
-      <DocumentTitle title={`${title[locale] || title} - Ant Design`}>
+      <DocumentTitle title={`${title[locale] || title} - Lor Framework`}>
         <article
           className="markdown"
           ref={node => {
