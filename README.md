@@ -1,10 +1,13 @@
-# Lor Framework Docs Site
+### Lor Framework docs
 
 ```bash
-$ git clone https://github.com/sumory/lor.sumory.com site
-$ cd site
-$ npm install
-$ npm start
-```
+# npm add -D vitepress
+# npx vitepress init
+npm install .
 
-Then visit http://localhost:8001
+# 开发
+npm run docs:dev
+
+# 打包
+npm run docs:build
+```
