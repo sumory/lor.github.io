@@ -1,80 +1,21 @@
 <!DOCTYPE html>
-<html>
-
-<link>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="a Web & API framework based on OpenResty">
-<title>Lor framework</title>
-<link rel="icon" href="/lor_site/images/lor.png" type="image/x-icon">
-<script src="https://gw.alipayobjects.com/os/lib/react/16.4.2/umd/react.production.min.js"></script>
-<script src="https://gw.alipayobjects.com/os/lib/react-dom/16.4.2/umd/react-dom.production.min.js"></script>
-<script src="https://gw.alipayobjects.com/os/lib/moment.js/2.22.2/moment-with-locales.min.js"></script>
-<script src="https://gw.alipayobjects.com/os/lib/antd/3.10.1/antd-with-locales.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://gw.alipayobjects.com/os/lib/antd/3.10.1/antd.min.css" />
-<link rel="stylesheet" type="text/css" href="/lor_site/index.css" />
-<script>
-  (function () {
-    function isLocalStorageNameSupported() {
-      var testKey = 'test';
-      var storage = window.localStorage;
-      try {
-        storage.setItem(testKey, '1');
-        storage.removeItem(testKey);
-        return true;
-      } catch (error) {
-        return false;
-      }
-    }
-    // 优先级提高到所有静态资源的前面，语言不对，加载其他静态资源没意义
-    var pathname = location.pathname;
-
-    function isZhCN(pathname) {
-      return /-cn\/?$/.test(pathname);
-    }
-    function getLocalizedPathname(path, zhCN) {
-      var pathname = path.startsWith('/') ? path : '/' + path;
-      if (!zhCN) { // to enUS
-        return /\/?index-cn/.test(pathname) ? '/' : pathname.replace('-cn', '');
-      } else if (pathname === '/') {
-        return '/index-cn';
-      } else if (pathname.endsWith('/')) {
-        return pathname.replace(/\/$/, '-cn/');
-      }
-      return pathname + '-cn';
-    }
-    // 首页无视链接里面的语言设置 https://github.com/ant-design/ant-design/issues/4552
-    if (isLocalStorageNameSupported() && (pathname === '/' || pathname === '/index-cn')) {
-      var lang = (window.localStorage && localStorage.getItem('locale')) || (navigator.language.toLowerCase() === 'zh-cn' ? 'zh-CN' : 'en-US');
-      // safari is 'zh-cn', while other browser is 'zh-CN';
-      if ((lang === 'zh-CN') !== isZhCN(pathname)) {
-        location.pathname = getLocalizedPathname(pathname, lang === 'zh-CN');
-      }
-    }
-    document.documentElement.className += isZhCN(pathname) ? 'zh-cn' : 'en-us';
-  })()
-</script>
-<!--[if lte IE 10]>
-  <script
-    src="https://as.alipayobjects.com/g/component/??console-polyfill/0.2.2/index.js,media-match/2.0.2/media.match.min.js"></script>
-  <![endif]-->
-<script>
-  if (!window.Intl) {
-    document.writeln('<script src="https://as.alipayobjects.com/g/component/intl/1.0.1/??Intl.js,locale-data/jsonp/en.js,locale-data/jsonp/zh.js">' + '<' + '/script>');
-  }
-  if (!window.Promise) {
-    document.writeln('<script src="https://as.alipayobjects.com/g/component/es6-promise/3.2.2/es6-promise.min.js"' + '>' + '<' + '/' + 'script>');
-  }
-</script>
-</head>
-
-<body>
-  <div id="react-content">
+<html lang="en-US" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>404 | Lor Framework</title>
+    <meta name="description" content="Not Found">
+    <meta name="generator" content="VitePress v1.2.3">
+    <link rel="preload stylesheet" href="/lor_site/assets/style.BYlpIyv1.css" as="style">
     
-  </div>
-  <script src="/lor_site/common.js"></script>
-  <script src="/lor_site/index.js"></script>
-</body>
-
+    <script type="module" src="/lor_site/assets/app.CKsnAsAv.js"></script>
+    <link rel="preload" href="/lor_site/assets/inter-roman-latin.Di8DUHzh.woff2" as="font" type="font/woff2" crossorigin="">
+    <script id="check-dark-mode">(()=>{const e=localStorage.getItem("vitepress-theme-appearance")||"auto",a=window.matchMedia("(prefers-color-scheme: dark)").matches;(!e||e==="auto"?a:e==="dark")&&document.documentElement.classList.add("dark")})();</script>
+    <script id="check-mac-os">document.documentElement.classList.toggle("mac",/Mac|iPhone|iPod|iPad/i.test(navigator.platform));</script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>window.__VP_HASH_MAP__=JSON.parse("{\"basic_installation.1.md\":\"C_lf0Kkc\",\"basic_getting-started.0.md\":\"COJlGf3D\",\"index.md\":\"DCMZviPw\",\"basic_lord_usage.3.md\":\"DIkGkFOs\",\"features_session_usage.204.md\":\"GBNEgX3V\",\"features_view_usage.202.md\":\"BDe8Scyn\",\"api_034.md\":\"DhfQ2v4u\",\"features_use_as_lib.205.md\":\"CmH59jIV\",\"api_026.md\":\"CQtQrbkf\",\"features_cookie_usage.203.md\":\"C5rq1b2k\",\"basic_restful.4.md\":\"BNdcMvNh\",\"features_issues.201.md\":\"CgzNlXSU\",\"others_changelog.md\":\"CGZ0A6BI\",\"others_migrate.md\":\"B-3v4ED-\",\"router_basic_route.101.md\":\"Bp9F7gRx\",\"router_group_index_route.105.md\":\"CCKEw4Sa\",\"router_group_router.102.md\":\"CCc7iDqz\",\"router_route_priority.104.md\":\"DkRUtdcX\",\"router_strict_route.106.md\":\"DAxJeZ58\",\"router_multi_business_middleware.103.md\":\"CdyHb8f8\"}");window.__VP_SITE_DATA__=JSON.parse("{\"lang\":\"en-US\",\"dir\":\"ltr\",\"title\":\"Lor Framework\",\"description\":\"docs for Lor.\",\"base\":\"/lor_site/\",\"head\":[],\"router\":{\"prefetchLinks\":true},\"appearance\":true,\"themeConfig\":{\"nav\":[{\"text\":\"Home\",\"link\":\"/\"},{\"text\":\"迁移\",\"link\":\"/others/migrate/\"},{\"text\":\"发布记录\",\"link\":\"/others/changelog/\"},{\"text\":\"API\",\"items\":[{\"text\":\"v0.3\",\"link\":\"/api/034/\"},{\"text\":\"v0.2\",\"link\":\"/api/026/\"}]}],\"sidebar\":[{\"text\":\"基础\",\"items\":[{\"text\":\"介绍\",\"link\":\"/basic/getting-started.0/\"},{\"text\":\"安装\",\"link\":\"/basic/installation.1/\"},{\"text\":\"Lord 工具\",\"link\":\"/basic/lord_usage.3/\"},{\"text\":\"RESTful 示例\",\"link\":\"/basic/restful.4/\"}]},{\"text\":\"路由\",\"items\":[{\"text\":\"基本用法\",\"link\":\"/router/basic_route.101/\"},{\"text\":\"组路由\",\"link\":\"/router/group_router.102/\"},{\"text\":\"多级处理函数\",\"link\":\"/router/multi_business_middleware.103/\"},{\"text\":\"路由优先级\",\"link\":\"/router/route_priority.104/\"},{\"text\":\"直接挂载到组路由\",\"link\":\"/router/group_index_route.105/\"},{\"text\":\"路由模式\",\"link\":\"/router/strict_route.106/\"}]},{\"text\":\"高级\",\"items\":[{\"text\":\"常见问题\",\"link\":\"/features/issues.201/\"},{\"text\":\"使用 HTML 模板\",\"link\":\"/features/view_usage.202/\"},{\"text\":\"使用 cookie\",\"link\":\"/features/cookie_usage.203/\"},{\"text\":\"使用 session\",\"link\":\"/features/session_usage.204/\"},{\"text\":\"将 Lor 当做一个库使用\",\"link\":\"/features/use_as_lib.205/\"}]}],\"footer\":{\"message\":\"Released under the MIT License.\",\"copyright\":\"Copyright © 2016-present Sumory Wu\"},\"socialLinks\":[{\"icon\":\"github\",\"link\":\"https://github.com/sumory/lor\"}],\"lastUpdated\":{\"text\":\"Updated at\",\"formatOptions\":{\"dateStyle\":\"full\",\"timeStyle\":\"medium\"}},\"search\":{\"provider\":\"local\"},\"docFooter\":{\"prev\":false,\"next\":false}},\"locales\":{},\"scrollOffset\":134,\"cleanUrls\":false}");</script>
+    
+  </body>
 </html>
